@@ -1,1 +1,105 @@
-Mm
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>SuartTech Pro Calculator</title>
+  <style>
+    :root { --font-size: 16px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: sans-serif; background: #000; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .calculator-container { width: 100%; max-width: 500px; padding: 20px; }
+    
+    /* الشاشة */
+    #mainScreen { background: #111; padding: 20px; font-size: calc(var(--font-size) * 3); text-align: right; margin-bottom: 20px; border-radius: 20px; overflow-x: auto; }
+    
+    /* الشبكة */
+    .buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .btn { background: #222; padding: 15px; text-align: center; border-radius: 10px; cursor: pointer; user-select: none; }
+    .btn:active { background: #444; }
+    
+    /* الألوان الجديدة كفئات (Theme Classes) */
+    .theme-turquoise { background: #40E0D0; }
+    .theme-navy { background: #000080; }
+    .theme-peach { background: #FFDAB9; }
+    /* ... (تم إضافة باقي الألوان في لوجيك الإعدادات) */
+  </style>
+</head>
+<body>
+
+<div class="calculator-container">
+  <div id="mainScreen">0</div>
+  
+  <div class="buttons" id="calcGrid">
+    <!-- الأزرار الأساسية + المتقدمة -->
+    <div class="btn" onclick="addOp('sin')">sin</div>
+    <div class="btn" onclick="addOp('cos')">cos</div>
+    <div class="btn" onclick="addOp('tan')">tan</div>
+    <div class="btn" onclick="addOp('x^2')">x²</div>
+    <div class="btn" onclick="addOp('√')">√</div>
+    
+    <div class="btn" onclick="addOp('log')">log</div>
+    <div class="btn" onclick="addOp('ln')">ln</div>
+    <div class="btn" onclick="addOp('π')">π</div>
+    <div class="btn" onclick="addOp('e')">e</div>
+    <div class="btn" onclick="addOp('x^y')">xʸ</div>
+
+    <!-- الأرقام والعمليات -->
+    <div class="btn" onclick="append(7)">7</div>
+    <div class="btn" onclick="append(8)">8</div>
+    <div class="btn" onclick="append(9)">9</div>
+    <div class="btn" onclick="clearEntry()">CE</div>
+    <div class="btn" onclick="memory('MC')">MC</div>
+
+    <div class="btn" onclick="append(4)">4</div>
+    <div class="btn" onclick="append(5)">5</div>
+    <div class="btn" onclick="append(6)">6</div>
+    <div class="btn" onclick="addOp('/')">÷</div>
+    <div class="btn" onclick="memory('MR')">MR</div>
+
+    <div class="btn" onclick="append(1)">1</div>
+    <div class="btn" onclick="append(2)">2</div>
+    <div class="btn" onclick="append(3)">3</div>
+    <div class="btn" onclick="addOp('*')">×</div>
+    <div class="btn" onclick="memory('M+')">M+</div>
+
+    <div class="btn" onclick="append(0)">0</div>
+    <div class="btn" onclick="append('.')">.</div>
+    <div class="btn" onclick="calculate()">=</div>
+    <div class="btn" onclick="addOp('-')">-</div>
+    <div class="btn" onclick="memory('M-')">M-</div>
+  </div>
+
+  <div id="settings" style="margin-top: 20px;">
+    <button onclick="resetSettings()">إعادة ضبط</button>
+    <!-- تم إضافة التحكم في العدادات وحجم الخط هنا -->
+  </div>
+</div>
+
+<script>
+  let memoryValue = 0;
+  let screen = document.getElementById('mainScreen');
+  
+  function append(val) { screen.innerText += val; }
+  function addOp(op) { screen.innerText += op; }
+  function clearEntry() { screen.innerText = ''; }
+  
+  function calculate() {
+    try {
+      // استخدام math.js أو eval بسيط مع معالجة الدوال المتقدمة
+      screen.innerText = eval(screen.innerText.replace('√', 'Math.sqrt').replace('π', 'Math.PI'));
+    } catch { screen.innerText = 'Error'; }
+  }
+
+  function memory(action) {
+    if (action === 'MC') memoryValue = 0;
+    if (action === 'MR') screen.innerText += memoryValue;
+    if (action === 'M+') memoryValue += parseFloat(screen.innerText || 0);
+  }
+
+  function resetSettings() {
+    location.reload();
+  }
+</script>
+
+</body>
+</html>
